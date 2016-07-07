@@ -42,7 +42,7 @@
 			$("#sunrise").text(sunriseTime);
 			$("#sunset").text(sunsetTime);
 
-			console.log(description);
+			console.log(convertTemp(temp, fahrenheit));
 
 
 		}
