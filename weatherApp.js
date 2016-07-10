@@ -1,13 +1,17 @@
 	$(document).ready(function() {
 
-		function convertTemp(temp, units){
-			if (units === "celsius")
+		var defaultUnits = "fahrenheit";
+
+		var Temperature = function(k) {
+			this.k = k;
+
+			this.fahrenheit = function()
 			{
-				return temp - 213.15;
+				return ((9/5)*(k - 273.15) + 32).toFixed(2);
 			}
-			else if (units === "fahrenheit")
+			this.celsius = function()
 			{
-				return (temp * (9/5) - 459.67);
+				return (k - 273.15).toFixed(2);
 			}
 		}
 
@@ -23,9 +27,9 @@
 
 		function displayCachedWeather(c)
 		{
-			var temp = c.main.temp;
-			var minTemp = c.main.temp_min;
-			var maxTemp = c.main.temp_max;
+			var temp = new Temperature(c.main.temp);
+			var minTemp = new Temperature(c.main.temp_min);
+			var maxTemp = new Temperature(c.main.temp_max);
 			var clouds = c.clouds.all; //percentage
 			var icon = c.weather[0].icon;
 			var humidity = c.main.humidity; //percentage
@@ -34,15 +38,23 @@
 			var sunsetTime = convertUnixTime(c.sys.sunset);
 
 
-			$("#current").text(temp);
-			$("#min").text(minTemp);
-			$("#max").text(maxTemp);
+			if (defaultUnits === "fahrenheit")
+			{
+				$("#current").text(temp.fahrenheit() + " F");
+				$("#min").text(minTemp.fahrenheit() + " F");
+				$("#max").text(maxTemp.fahrenheit()+ " F");
+			}
+			else if (defaultUnits === "celsius")
+			{
+				$("#current").text(temp.celsius() + " C");
+				$("#min").text(minTemp.celsius() + " C");
+				$("#max").text(maxTemp.celsius() + " C");
+			}
+
 			$("#condition").text(description);
 			$("#humidity").text(humidity + "%");
 			$("#sunrise").text(sunriseTime);
 			$("#sunset").text(sunsetTime);
-
-			console.log(convertTemp(temp, "fahrenheit"));
 
 
 		}
@@ -105,6 +117,35 @@
 				frameCount +=1;
 				
 			}
+		}
+
+		$("#change_to_c").click(function(){
+			defaultUnits = "celsius";
+			fetchWeather();
+		});
+
+		$("#change_to_f").click(function(){
+			defaultUnits = "fahrenheit";
+			fetchWeather();
+		});
+
+		var day = [126, 202, 225];
+
+		function setRGB() {
+
+		}
+
+		function startLoop() {
+		  //setRGB();
+		  var r = day[0];
+		  var g = day[1];
+		  var b = day[2];
+		  $(".weather-box").animate({
+		    backgroundColor: "rgb(" + r + "," + g + "," + b + ")"
+		  }, 4000, function() {
+		    startLoop();
+		  });
+
 		}
 
 

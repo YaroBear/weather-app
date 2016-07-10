@@ -1,10 +1,11 @@
 	
 	.weather-box {
 		min-width: 700px;
+		min-height: 500px;
 		width: 80%;
 		height: 50%;
 		margin: 50 auto;
-		background-color: rgb(100, 200,100);
+		background-color: rgb(126, 202,225);
 		padding: 20px;
 		border-style: solid ;
 		border-radius: 5px;
@@ -12,6 +13,15 @@
 		font-size: 1.5em;
 		font-family: monospace;
 
+	}
+	.weather-box button {
+		padding: 8px;
+		margin: 8px 4px 8px 4px;
+		font-size: .8em;
+		background-color: #95A0A3;
+	}
+	.weather-box button:active {
+		outline-color: red;
 	}
 
 	@keyframes bounceIn {
@@ -64,6 +74,7 @@
 		border: 1px solid black;
 		border-collapse: collapse;
 		font-size: 1em;
+		background-color: #95A0A3;
 	}
 
 	th, td {
