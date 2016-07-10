@@ -55,6 +55,8 @@
 			$("#humidity").text(humidity + "%");
 			$("#sunrise").text(sunriseTime);
 			$("#sunset").text(sunsetTime);
+			$("#sunrise-footer").text(sunriseTime);
+			$("#sunset-footer").text(sunsetTime);
 
 
 		}
@@ -98,11 +100,14 @@
 		}
 
 		function dayCycle(stop){
+			var animate = setInterval(frame, 2000);
+			var angle = 180;
+			var radius = 400;
+			var maxY = 400;
+			var maxX = 800;
 			var frameCount = 0;
-			var top = 325;
-			var left = 400;
-			var animate = setInterval(frame, 100);
-			var angle = 3 * Math.PI / 180;
+			var left = 0;
+			var top = 0;
 
 			function frame(){
 				if (frameCount === stop){
@@ -111,9 +116,9 @@
 				}
 				$("#sun").css("left", left);
 				$("#sun").css ("top", top);
-				angle += 3 * Math.PI/180;
-				left = (left + 10 * Math.cos(angle)); 
-				top = (top + 10 * Math.sin(angle));
+				angle += 1;
+				left = (Math.cos(angle)*radius); 
+				top = (Math.sin(angle)*radius);
 				frameCount +=1;
 				
 			}
@@ -129,28 +134,10 @@
 			fetchWeather();
 		});
 
-		var day = [126, 202, 225];
-
-		function setRGB() {
-
-		}
-
-		function startLoop() {
-		  //setRGB();
-		  var r = day[0];
-		  var g = day[1];
-		  var b = day[2];
-		  $(".weather-box").animate({
-		    backgroundColor: "rgb(" + r + "," + g + "," + b + ")"
-		  }, 4000, function() {
-		    startLoop();
-		  });
-
-		}
-
-
+		$('.sun-animation').css('width', '50%');
+		$('.sun-symbol-path').css('-webkit-transform', 'rotateZ(25deg)');
 
 		fetchLocation();
-		//dayCycle(300);
+		//dayCycle(100);
 
 });

@@ -1,27 +1,46 @@
 	
 	.weather-box {
-		min-width: 700px;
-		min-height: 500px;
-		width: 80%;
-		height: 50%;
+		width: 800px;
+		height: 800px;
 		margin: 50 auto;
 		background-color: rgb(126, 202,225);
 		padding: 20px;
-		border-style: solid ;
 		border-radius: 5px;
 		text-align: center;
 		font-size: 1.5em;
 		font-family: monospace;
 
 	}
+
+	.weather-box .info-panel {
+		height: 40%;
+		width: 100%;
+		background-color: red;
+	}
+
+	.weather-box .weather-panel{
+		height: 50%;
+		width: 100%;
+		background-color: green;
+		position: relative;
+	}
+
 	.weather-box button {
 		padding: 8px;
-		margin: 8px 4px 8px 4px;
+		margin: 25px 4px 8px 4px;
 		font-size: .8em;
 		background-color: #95A0A3;
 	}
 	.weather-box button:active {
 		outline-color: red;
+	}
+
+	#sunrise-footer {
+		float: left;
+	}
+
+	#sunset-footer {
+		float: right;
 	}
 
 	@keyframes bounceIn {
@@ -43,11 +62,57 @@
 		height: 100px;
 		background-color: orange;
 		border-radius: 100%;
-		margin: 10px;
-		position: relative;
-		top: 325px;
-		left: 0px;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		
 	}
+
+	.sun-times {
+		margin-top: 40px;
+		width: 800px;
+		height: 250px;
+		overflow-y: hidden;
+		position: absolute;
+		bottom: 0;
+	}
+
+	.sun-times .sun-path {
+		margin-left: 25px;
+		width: 750px;
+		height: 500px;
+		overflow: hidden;
+		border: 2px dashed #999;
+		border-radius: 50%;
+	}
+
+	.sun-animation {
+		width: 0px;
+		height: 300px;
+		background-color: rgba(255, 255, 0, 0.4);
+		-webkit-transition: width 2s ease-out;
+		transition: width 2s ease-out;
+	}
+
+	.sun-symbol-path {
+		position: absolute;
+		color: yellow;
+		text-shadow: 0 0 5px black;
+		height: 400;
+		-webkit-transition: -webkit-transform 2s linear;
+		-webkit-transform-origin: 50% 100%;
+		-webkit-transform: rotateZ(-75deg);
+		left: 425px;
+		bottom: 0;
+
+	}
+
+	.sun-symbol-path .symbol {
+		position: relative;
+        font-size: 16px;
+        top: -8px;
+	}
+
 
 	#cloud {
 

@@ -7,33 +7,45 @@
 
 	<body>
 		<div class="weather-box">
-			<h1>Weather</h1>
-			<h2 id = "location"></h2>
-			<h2 id = "weather"></h2>
-			<table>
-				<tr>
-					<th>Current Temp</th>
-					<th>Min</th>
-					<th>Max</th>
-					<th>Condition</th>
-					<th>Humidity</th>
-					<th>Sunrise</th>
-					<th>Sunset</th>
-				</tr>
-				<tr>
-					<td id ="current"></td>
-					<td id ="min"></td>
-					<td id ="max"></td>
-					<td id="condition"></td>
-					<td id="humidity"></td>
-					<td id="sunrise"></td>
-					<td id="sunset"></td>
-				</tr>
-				</table>
-			<button id="change_to_c">C</button>
-			<button id="change_to_f">F</button>
-			<p>
-			<img src="https://maxcdn.icons8.com/iOS7/PNG/100/Network/shared-100.png" id ="cloud"></img>
+			<div class="info-panel">
+				<h1>Weather</h1>
+				<h2 id = "location"></h2>
+				<h2 id = "weather"></h2>
+				<table>
+					<tr>
+						<th>Current Temp</th>
+						<th>Min</th>
+						<th>Max</th>
+						<th>Condition</th>
+						<th>Humidity</th>
+						<th>Sunrise</th>
+						<th>Sunset</th>
+					</tr>
+					<tr>
+						<td id ="current"></td>
+						<td id ="min"></td>
+						<td id ="max"></td>
+						<td id="condition"></td>
+						<td id="humidity"></td>
+						<td id="sunrise"></td>
+						<td id="sunset"></td>
+					</tr>
+					</table>
+					<button id="change_to_c">C</button>
+					<button id="change_to_f">F</button>
+				</div>
+			<div class="weather-panel">
+				<!--<img src="https://maxcdn.icons8.com/iOS7/PNG/100/Network/shared-100.png" id ="cloud"></img>-->
+				<div class="sun-times">
+					<div class="sun-path">
+						<div class="sun-animation">
+						</div>
+					</div>
+					<div class="sun-symbol-path"><span class="symbol">☀</span></div>
+				</div>
+			</div>
+			<footer id="sunrise-footer">Left</footer>
+			<footer id="sunset-footer">Right</footer>
 		</div>
 	</body>
 
