@@ -1,11 +1,11 @@
 	$(document).ready(function() {
 
 		function convertTemp(temp, units){
-			if (units === celsius)
+			if (units === "celsius")
 			{
 				return temp - 213.15;
 			}
-			else if (units === fahrenheit)
+			else if (units === "fahrenheit")
 			{
 				return (temp * (9/5) - 459.67);
 			}
@@ -42,7 +42,7 @@
 			$("#sunrise").text(sunriseTime);
 			$("#sunset").text(sunsetTime);
 
-			console.log(convertTemp(temp, fahrenheit));
+			console.log(convertTemp(temp, "fahrenheit"));
 
 
 		}
