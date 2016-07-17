@@ -1,4 +1,8 @@
-	
+	body 
+	{
+		background-color: #445257
+	}
+
 	.weather-box {
 		width: 800px;
 		height: 800px;
@@ -15,13 +19,13 @@
 	.weather-box .info-panel {
 		height: 40%;
 		width: 100%;
-		background-color: red;
+		
 	}
 
 	.weather-box .weather-panel{
-		height: 50%;
+		height: 59%;
 		width: 100%;
-		background-color: green;
+		
 		position: relative;
 	}
 
@@ -36,36 +40,15 @@
 	}
 
 	#sunrise-footer {
+		margin-top: 5px;
 		float: left;
+		color: white;
 	}
 
 	#sunset-footer {
+		margin-top: 5px;
 		float: right;
-	}
-
-	@keyframes bounceIn {
-		0% {
-			transform: scale(0.1);
-			opacity: 0;
-		}
-		60% {
-			transform: scale(1.2);
-			opacity: 1;
-		}
-		100% {
-			transform: scale(1);
-		}
-	}
-
-	#sun {
-		width: 100px;
-		height: 100px;
-		background-color: orange;
-		border-radius: 100%;
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		
+		color: white;
 	}
 
 	.sun-times {
@@ -88,47 +71,8 @@
 
 	.sun-animation {
 		width: 0px;
-		height: 300px;
-		background-color: rgba(255, 255, 0, 0.4);
-		-webkit-transition: width 2s ease-out;
-		transition: width 2s ease-out;
-	}
-
-	.sun-symbol-path {
-		position: absolute;
-		color: yellow;
-		text-shadow: 0 0 5px black;
-		height: 400;
-		-webkit-transition: -webkit-transform 2s linear;
-		-webkit-transform-origin: 50% 100%;
-		-webkit-transform: rotateZ(-75deg);
-		left: 425px;
-		bottom: 0;
-
-	}
-
-	.sun-symbol-path .symbol {
-		position: relative;
-        font-size: 16px;
-        top: -8px;
-	}
-
-
-	#cloud {
-
-		animation-name: bounceIn;
-		animation-duration: 2s; 
-		animation-delay: 0;
-		animation-iteration-count: 1;
-
-	}
-
-	#rain {
-		opacity: 0;
-		-moz-animation: bounceIn 2s 2s forwards; /* Firefox */
-		-webkit-animation: bounceIn 2s 2s forwards; /* Safari and Chrome */
-		-o-animation: bounceIn 2s 2s forwards; /* Opera */
-		animation: bounceIn 2s 2s forwards;
+        height: 300px;
+        background-color: rgba(255, 255, 0, 0.4);
 	}
 
 	table {

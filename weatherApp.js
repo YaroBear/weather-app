@@ -1,5 +1,7 @@
 	$(document).ready(function() {
 
+// Unit and and time conversions ***********************************************************
+
 		var defaultUnits = "fahrenheit";
 
 		var Temperature = function(k) {
@@ -24,56 +26,59 @@
 			return formattedTime;
 		}
 
+// Sundial animation ***********************************************************
 
-		function displayCachedWeather(c)
-		{
-			var temp = new Temperature(c.main.temp);
-			var minTemp = new Temperature(c.main.temp_min);
-			var maxTemp = new Temperature(c.main.temp_max);
-			var clouds = c.clouds.all; //percentage
-			var icon = c.weather[0].icon;
-			var humidity = c.main.humidity; //percentage
-			var description = c.weather[0].description;
-			var sunriseTime = convertUnixTime(c.sys.sunrise);
-			var sunsetTime = convertUnixTime(c.sys.sunset);
-
-
-			if (defaultUnits === "fahrenheit")
-			{
-				$("#current").text(temp.fahrenheit() + " F");
-				$("#min").text(minTemp.fahrenheit() + " F");
-				$("#max").text(maxTemp.fahrenheit()+ " F");
-			}
-			else if (defaultUnits === "celsius")
-			{
-				$("#current").text(temp.celsius() + " C");
-				$("#min").text(minTemp.celsius() + " C");
-				$("#max").text(maxTemp.celsius() + " C");
-			}
-
-			$("#condition").text(description);
-			$("#humidity").text(humidity + "%");
-			$("#sunrise").text(sunriseTime);
-			$("#sunset").text(sunsetTime);
-			$("#sunrise-footer").text(sunriseTime);
-			$("#sunset-footer").text(sunsetTime);
-
-
+		function sunDial(sunset)
+		{	
+			var begin = new Date(Date.now());
+			var end = new Date(sunset*1000);
+			var dayPercent = (begin.getHours()/end.getHours())*100;
+			//console.log(dayPercent);
+			dayCycle(dayPercent);
 		}
+
+		function dayCycle(stop)
+		{
+			var animate = setInterval(frame, 30);
+			var percentage = 0;
+			var green = 202;
+			var blue = 225;
+
+			function frame(){
+				if (percentage >= stop){
+					clearInterval(animate);
+					frameCount = 0;
+				}
+
+				$('.sun-animation').css('width', percentage +"%");
+				$('.weather-box').css('background-color', "rgb(126,"+ green +" ,"+ blue +")");
+
+				if (green < 140){
+					blue -= 2;
+				}
+
+				percentage += 1;
+				green -= 1;
+			}
+		}
+
+
+// Weather and locations APIs ***********************************************************
 
 		function fetchWeather(zip, country) {
 			var weatherCache = JSON.parse(localStorage.getItem('weatherCache'));
 			var timeout = JSON.parse(localStorage.getItem('timeout'));
 
-			console.log(convertUnixTime(timeout));
+			//console.log(convertUnixTime(timeout));
+			//console.log(new Date(Date.now()));
 
-			if (!weatherCache || (new Date().getTime() > timeout)){
+			if (weatherCache === null || (new Date(Date.now()) > timeout)){
 				// if no cached weather or 60 minutes has passed since last json call
 				console.log("no cached weather or needs update. grabbing json");
-				var timeout = new Date().getTime() + 60*60*100; // add 60 minutes
+				var timeout = (new Date().getTime() + 60*60*1000); // add 60 minutes
 				timeout = localStorage.setItem('timeout', timeout);
 
-				var weatherCall = "http://api.openweathermap.org/data/2.5/weather?APPID=7f1fdde8d184ed9e52c57ba51a41ff26";
+				const weatherCall = "http://api.openweathermap.org/data/2.5/weather?APPID=7f1fdde8d184ed9e52c57ba51a41ff26";
 
 				$.getJSON(weatherCall + "&zip=" + zip + "," + country.toLowerCase()  , function(data){
 					weatherCache  = localStorage.setItem('weatherCache', JSON.stringify(data));
@@ -99,30 +104,87 @@
 			});
 		}
 
-		function dayCycle(stop){
-			var animate = setInterval(frame, 2000);
-			var angle = 180;
-			var radius = 400;
-			var maxY = 400;
-			var maxX = 800;
-			var frameCount = 0;
-			var left = 0;
-			var top = 0;
+// Display Weather ***********************************************************
 
-			function frame(){
-				if (frameCount === stop){
-					clearInterval(animate);
-					frameCount = 0;
+		function displayCachedWeather(c)
+		{
+			var temp = new Temperature(c.main.temp);
+			var minTemp = new Temperature(c.main.temp_min);
+			var maxTemp = new Temperature(c.main.temp_max);
+			var clouds = c.clouds.all; //percentage
+			var icon = c.weather[0].icon;
+			var humidity = c.main.humidity; //percentage
+			var description = c.weather[0].description;
+			var sunriseTime = convertUnixTime(c.sys.sunrise);
+			var sunsetTime = convertUnixTime(c.sys.sunset);
+
+			sunDial(c.sys.sunset);
+
+			animateWeather(description);
+
+
+			if (defaultUnits === "fahrenheit")
+			{
+				$("#current").text(temp.fahrenheit() + " F");
+				$("#min").text(minTemp.fahrenheit() + " F");
+				$("#max").text(maxTemp.fahrenheit()+ " F");
+			}
+			else if (defaultUnits === "celsius")
+			{
+				$("#current").text(temp.celsius() + " C");
+				$("#min").text(minTemp.celsius() + " C");
+				$("#max").text(maxTemp.celsius() + " C");
+			}
+
+			$("#condition").text(description);
+			$("#humidity").text(humidity + "%");
+			$("#sunrise").text(sunriseTime);
+			$("#sunset").text(sunsetTime);
+			$("#sunrise-footer").text(sunriseTime);
+			$("#sunset-footer").text(sunsetTime);
+
+
+		}
+
+		function animateWeather(description)
+		{
+			var cloudy = "<div class='icon cloudy'><div class='cloud'></div><div class='cloud'></div></div>";
+			var sunShower = "<div class='icon sun-shower'><div class='cloud'></div><div class='sun'><div class='rays'></div></div><div class='rain'></div></div>";
+			var thunderStorm = "<div class='icon thunder-storm'><div class='cloud'></div><div class='lightning'><div class='bolt'></div><div class='bolt'></div></div></div>";
+			var snow = "<div class='icon flurries'><div class='cloud'></div><div class='snow'><div class='flake'></div><div class='flake'></div></div></div>"
+			var sunny = "<div class='icon sunny'><div class='sun'><div class='rays'></div></div></div>";
+			var rainy = "<div class='icon rainy'><div class='cloud'></div><div class='rain'></div></div>";
+
+			if ($(".weather-panel > div").length <= 1) // so multiple weather animations don't stack
+			{
+				if (description === "few clouds" || description === "scattered clouds" || description === "broken clouds"){
+					$(".weather-panel").append(cloudy);
 				}
-				$("#sun").css("left", left);
-				$("#sun").css ("top", top);
-				angle += 1;
-				left = (Math.cos(angle)*radius); 
-				top = (Math.sin(angle)*radius);
-				frameCount +=1;
-				
+				else if (description === "rain")
+				{
+					$(".weather-panel").append(sunShower);
+				}
+				else if (description === "thunder storm")
+				{
+					$(".weather-panel").append(thunderStorm);
+				}
+				else if (description === "snow")
+				{
+					$(".weather-panel").append(snow);
+				}
+				else if (description === "clear sky")
+				{
+					$(".weather-panel").append(sunny);
+				}
+				else if (description === "shower rain")
+				{
+					$(".weather-panel").append(rainy);
+				}
 			}
 		}
+
+
+// Buttons ***********************************************************
 
 		$("#change_to_c").click(function(){
 			defaultUnits = "celsius";
@@ -134,10 +196,12 @@
 			fetchWeather();
 		});
 
-		$('.sun-animation').css('width', '50%');
-		$('.sun-symbol-path').css('-webkit-transform', 'rotateZ(25deg)');
+		$("#clear_cache").click(function(){
+			localStorage.clear();
+			console.log("local storage cleared");
+			document.location.reload(true);
+		});
 
 		fetchLocation();
-		//dayCycle(100);
 
 });
