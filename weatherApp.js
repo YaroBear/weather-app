@@ -28,12 +28,15 @@
 
 // Sundial animation ***********************************************************
 
-		function sunDial(sunset)
+		function sunDial(sunset, sunrise)
 		{	
-			var begin = new Date(Date.now());
+			var current = new Date(Date.now());
+			var begin = new Date(sunrise*1000);
 			var end = new Date(sunset*1000);
-			var dayPercent = (begin.getHours()/end.getHours())*100;
-			//console.log(dayPercent);
+			var interval = end - begin;
+			var dayPercent = (current - begin) * (100/interval);
+			console.log(interval);
+			console.log(dayPercent);
 			dayCycle(dayPercent);
 		}
 
@@ -84,7 +87,10 @@
 					weatherCache  = localStorage.setItem('weatherCache', JSON.stringify(data));
 
 				});
-				displayCachedWeather(weatherCache);
+				setTimeout(fetchLocation, 200);
+				// localStorage is too slow, so a delay is set rather than invoking
+				// displayCachedWeather immediatley, as it would produce a null
+				// error when trying to access the localStorage
 			}
 			else {
 				displayCachedWeather(weatherCache);
@@ -118,7 +124,7 @@
 			var sunriseTime = convertUnixTime(c.sys.sunrise);
 			var sunsetTime = convertUnixTime(c.sys.sunset);
 
-			sunDial(c.sys.sunset);
+			sunDial(c.sys.sunset, c.sys.sunrise);
 
 			animateWeather(description);
 
@@ -160,7 +166,7 @@
 				if (description === "few clouds" || description === "scattered clouds" || description === "broken clouds"){
 					$(".weather-panel").append(cloudy);
 				}
-				else if (description === "rain")
+				else if (description === "rain" || "light rain")
 				{
 					$(".weather-panel").append(sunShower);
 				}
