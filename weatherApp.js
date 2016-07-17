@@ -121,12 +121,13 @@
 			var icon = c.weather[0].icon;
 			var humidity = c.main.humidity; //percentage
 			var description = c.weather[0].description;
+			var id = c.weather[0].id;
 			var sunriseTime = convertUnixTime(c.sys.sunrise);
 			var sunsetTime = convertUnixTime(c.sys.sunset);
 
 			sunDial(c.sys.sunset, c.sys.sunrise);
 
-			animateWeather(description);
+			animateWeather(id);
 
 
 			if (defaultUnits === "fahrenheit")
@@ -152,7 +153,7 @@
 
 		}
 
-		function animateWeather(description)
+		function animateWeather(id)
 		{
 			var cloudy = "<div class='icon cloudy'><div class='cloud'></div><div class='cloud'></div></div>";
 			var sunShower = "<div class='icon sun-shower'><div class='cloud'></div><div class='sun'><div class='rays'></div></div><div class='rain'></div></div>";
@@ -163,26 +164,26 @@
 
 			if ($(".weather-panel > div").length <= 1) // so multiple weather animations don't stack
 			{
-				if (description === "few clouds" || description === "scattered clouds" || description === "broken clouds"){
+				if (id > 800 && id < 900){
 					$(".weather-panel").append(cloudy);
 				}
-				else if (description === "rain" || "light rain")
+				else if (id >= 500 && id <= 504)
 				{
 					$(".weather-panel").append(sunShower);
 				}
-				else if (description === "thunder storm")
+				else if (id >= 200 && id < 300)
 				{
 					$(".weather-panel").append(thunderStorm);
 				}
-				else if (description === "snow")
+				else if (idn >= 600 && id < 600)
 				{
 					$(".weather-panel").append(snow);
 				}
-				else if (description === "clear sky")
+				else if (id === 800)
 				{
 					$(".weather-panel").append(sunny);
 				}
-				else if (description === "shower rain")
+				else if ((id >= 300 && id < 400) || (id > 504 && id < 600))
 				{
 					$(".weather-panel").append(rainy);
 				}
